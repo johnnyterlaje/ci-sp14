@@ -6,7 +6,7 @@ class Mailing_list extends CI_Controller
 	function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
-	}	
+	}//end constructor	
 
 	public function index()
 	{//here we are making data available  to our header and footer
@@ -60,47 +60,33 @@ class Mailing_list extends CI_Controller
 		$this->load->view('mailing_list/add_mailing_list',$data);
 
 		$this->load->view('footer',$data);
-
-
-
 	}//end add()
 
 	public function insert()
 	{//will insert the data entered via add()
 		$this->load->model('Mailing_list_model');
-		$this->load->library('form_validatation');
-		$this->load->helper('url');
+		$this->load->library('form_validation');
+		//must have atleast one validation rule to insert
+		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
 
-		// echo '<pre>';
-		// var_dump($_POST);
-		// echo '</pre>';
 
-		if (isset($_POST['first_name'])) 
-			{//insert data!
-					$post = array(
-					'first_name' => $this->input->post('first_name'),
-					'last_name' => $this->input->post('last_name'),
-					'email' => $this->input->post('email'),
-					'address' => $this->input->post('address'),
-					'state_code' => $this->input->post('state_code'),
-					'zip_postal' => $this->input->post('zip_postal'),
-					'password' => $this->input->post('password'),
-					'bio' => $this->input->post('bio'),
-					'interests' => $this->input->post('interests'),
-					'num_tours' => $this->input->post('num_tours'),
-					'first_name' => $this->input->post('first_name'),
-				);
-
-				$this->Mailing_list_model->insert($post);
-				echo "Data inserted?";
-			echo 'Data ready for insert<br />';
-			echo $_POST['first_name'];
-		}else{//no post, no insert!
-			echo "No post, no insert!";
 
 		if($this->form_validation->run() == FALSE)
-			{//failed valiation - send back to form
-				echo "insert failed!";
+		{//failed valiation - send back to form
+			//VIEW DATA ON FAILURE GOES HERE!!
+			$this->load->helper('form');
+			$data['title'] = "Adding a record!";
+			$data['style'] = "cerulean.css";
+			$data['banner'] = "Data Entry Error!";
+			$data['copyright'] = "copyright goes here!";
+			$data['base_url'] = base_url();
+			$this->load->view('header',$data);
+	
+			//var_dump($data['query']);
+			$this->load->view('mailing_list/add_mailing_list',$data);
+	
+			$this->load->view('footer',$data);
+
 			}else{//insert data
 				$post = array(
 					'first_name' => $this->input->post('first_name'),
@@ -113,7 +99,7 @@ class Mailing_list extends CI_Controller
 					'bio' => $this->input->post('bio'),
 					'interests' => $this->input->post('interests'),
 					'num_tours' => $this->input->post('num_tours'),
-					'first_name' => $this->input->post('first_name'),
+
 				);
 
 				$this->Mailing_list_model->insert($post);

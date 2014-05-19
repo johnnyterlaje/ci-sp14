@@ -88,13 +88,6 @@ $bio = array(
 echo form_label('Bio','bio') . ': ';
 echo form_textarea($bio) . '<br />';
 
-$interests = array(
-'name' => 'interests',
-'id' => 'interests',
-);
-echo form_label('Interests','interests') . ': ';
-echo form_multiselect($interests) . '<br />';
-
 // $interests = array(
 // 'name' => 'interests',
 // 'id' => 'interests',
