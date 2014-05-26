@@ -68,8 +68,13 @@ class Mailing_list extends CI_Controller
 		$this->load->library('form_validation');
 		//must have atleast one validation rule to insert
 		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
-
-
+		$this->form_validation->set_rules('first_name','First Name','trim|required');
+		$this->form_validation->set_rules('last_name','Last Name','trim|required');
+		$this->form_validation->set_rules('address','Address','trim|required');
+		$this->form_validation->set_rules('state','State','trim|required');
+		$this->form_validation->set_rules('zip_postal','Zip Postal','trim|required');
+		$this->form_validation->set_rules('username','Username','trim|required');
+		$this->form_validation->set_rules('password','Password','trim|required');
 
 		if($this->form_validation->run() == FALSE)
 		{//failed valiation - send back to form
@@ -102,8 +107,17 @@ class Mailing_list extends CI_Controller
 
 				);
 
-				$this->Mailing_list_model->insert($post);
-				echo "Data inserted?";
+				$id = $this->Mailing_list_model->insert($post);
+
+				echo 'id is:' . $id;
+				die;
+
+				redirect('/mailing_list/view/' . $id);
+
+
+
+
+				// echo "Data inserted?";
 
 			}
 

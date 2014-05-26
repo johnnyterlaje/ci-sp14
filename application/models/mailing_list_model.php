@@ -23,9 +23,10 @@ public function get_id($id)
 		return $this->db->get('mailing_list');
 	}//end get_id()
 
-	public function insert()
+	public function insert($row)
 	{
-
+		$this->db->insert('userid',$row);	
+		return $this->db->insert_id();
 	}//end insert()
 
 }
